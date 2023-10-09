@@ -10,12 +10,12 @@ function getLatAndLong(event) {
     event.preventDefault();
     // var citySearch = cityInput.value;
     console.log(cityInput.value)
-    fetch('http://api.openweathermap.org/geo/1.0/direct?q=' + cityInput.value + '&appid=29253d375da320c72f0c2f2de7d28696')
+    fetch(`http://api.openweathermap.org/geo/1.0/direct?q=${cityInput.value}'&appid=${apiKey}`)
     .then(response => {
         return response.json();
     }).then(data => {
-        var lat = data[0].lat
-        var lon = data[0].lon
+        var lat = data[0].lat;
+        var lon = data[0].lon;
         getWeather(lat,lon);
         fiveDay(cityInput.value);
     }).catch(error => {
@@ -24,7 +24,7 @@ function getLatAndLong(event) {
 }
 
 function getWeather(lat,lon) {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&&appid=29253d375da320c72f0c2f2de7d28696&units=imperial`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&&appid=${apiKey}&units=imperial`)
     .then(response => {
         return response.json();
     }).then(data => {
@@ -32,6 +32,8 @@ function getWeather(lat,lon) {
         var h2El = document.createElement("h2");
         h2El.classList.add("card-header");
         h2El.textContent = data.name;
+        var todayDate = dayjs().format(' (MM/DD/YYYY)');
+        h2El.append(todayDate);
         var imgTag = document.createElement('img');
         imgTag.setAttribute('src',`https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`);
         h2El.append(imgTag);
@@ -49,26 +51,26 @@ function getWeather(lat,lon) {
         liEl3.classList.add('list-group-item')
         liEl3.textContent ="Humidity: " + data.main.humidity + "%";
         ulEl.appendChild(liEl3);
-        document.getElementById('weather-card').append(h2El, ulEl)
+        document.getElementById('weather-card').append(h2El, ulEl);
     }).catch(error => {
         console.log(error)
     })
 }
 
 function fiveDay(cityName) {
-    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=29253d375da320c72f0c2f2de7d28696&units=imperial`)
+    fetch(`https://api.openweathermap.org/data/2.5/forecast?q=${cityName}&appid=${apiKey}&units=imperial`)
     .then(response => {
         return response.json();
     }).then(data => {
         console.log(data)
-        var fiveDayCard =""
-        for (var i = 0;i<data.list.length;i=i+8){
+        var fiveDayCard = "";
+        for (var i = 0; i < data.list.length; i = i+8){
             fiveDayCard += `<div class="card" id="weather-card">
-            <div class="card-header">${data.list[i].dt}<img src="https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png" /></div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">Temperature:${data.list[i].main.temp}</li>
-                <li class="list-group-item">Wind: ${data.list[i].wind.speed}</li>
-                <li class="list-group-item">Humidity: ${data.list[i].main.humidity}</li>
+            <div id="cards" class="card-header">${data.list[i].dt}<img src="https://openweathermap.org/img/wn/${data.list[i].weather[0].icon}@2x.png"/></div>
+            <ul  class="list-group list-group-flush">
+                <li class="list-group-items">Temperature:${data.list[i].main.temp}</li>
+                <li class="list-group-items">Wind: ${data.list[i].wind.speed}</li>
+                <li class="list-group-items">Humidity: ${data.list[i].main.humidity}</li>
             </ul>
         </div>`
         }
