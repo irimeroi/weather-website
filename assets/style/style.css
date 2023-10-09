@@ -1,3 +1,35 @@
 * {
     border: dashed red;
 }
+
+form {
+    background-color: antiquewhite;
+    height: 100vh;
+}
+
+#dashboard {
+    background-color: rgb(167, 219, 237);
+    color: white;
+    text-align: center;
+    display: flex;
+}
+
+#weather-div {
+    display: inline-block;
+    height: fit-content;
+}
+
+/* #five-day-div {
+    display: inline-flex;
+    flex-direction: row;
+} */
+
+#cards {
+    background-color: rgb(45, 53, 88);
+    color: white;
+}
+
+.list-group-items {
+    background-color: rgb(45, 53, 88);
+    color: white;
+}
